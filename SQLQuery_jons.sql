@@ -18,6 +18,38 @@ HAVING COUNT(OrderID) > 50
 
 
 -------------------------------------
+--The city that registered the least order ! Inner Join
+
+SELECT TOP(1) WITH TIES
+	C.City,
+	COUNT(O.OrderID) AS Num
+FROM  Orders AS O
+INNER JOIN Customers AS C
+	ON O.CustomerID = C.CustomerID
+GROUP BY City
+ORDER BY Num;
+--------------------------------------
+
+
+
+-------------------------------------
+--The products that sell the most ! Inner Join
+
+SELECT TOP(3) WITH TIES
+	P.ProductName,
+	SUM(OD.Qty) AS Quntitys
+FROM Products AS P 
+INNER JOIN OrderDetails AS OD
+	ON P.ProductID = OD.ProductID
+GROUP BY P.ProductName
+ORDER BY Quntitys DESC
+
+--------------------------------------
+
+
+
+
+-------------------------------------
 --Products in their different states ! Self Join
 
 SELECT 
