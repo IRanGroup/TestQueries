@@ -1,0 +1,55 @@
+﻿USE[NikamoozDB]
+GO
+
+--ScalarValue
+--Abbreviation
+DROP FUNCTION IF EXISTS Dbo.Abbreviation
+GO
+CREATE FUNCTION Abbreviation (@FIRSNAME NVARCHAR(50),@LASTNAME NVARCHAR(50))
+RETURNS NCHAR(3)
+AS
+BEGIN
+
+	DECLARE @OUTPUT NCHAR(5)
+	SET @OUTPUT = LEFT(@FIRSNAME,1)+'.'+LEFT(@LASTNAME,1)
+	
+	RETURN @OUTPUT
+END
+GO
+
+SELECT dbo.Abbreviation(N'امیر',N'خرازی') AS Abbreviat
+GO
+--END QUERY
+
+
+--TABLE VALUE
+
+--Newest employee order
+CREATE FUNCTION NeweSt_Customer (@CodeCustomer INT,@NumOrder INT)
+RETURNS TABLE
+AS
+RETURN
+	SELECT TOP(@NumOrder) OrderID,
+		   CustomerID,OrderDate
+	FROM dbo.Orders 
+	WHERE CustomerID = 1
+	ORDER BY OrderDate
+GO
+SELECT * FROM dbo.NeweSt_Customer(1,5)
+GO
+--END QUERY
+
+
+--MULTY STATEMENT
+CREATE FUNCTION  TABLE_VALUE()
+	RETURNS @TBL1 TABLE (COL1 INT, COL2 NVARCHAR(100))
+AS
+BEGIN
+	INSERT @TBL1
+		VALUES (1,'HELLO'),(2,'SQL')
+		RETURN
+END
+GO
+SELECT * FROM dbo.TABLE_VALUE()
+GO
+--END QUERY

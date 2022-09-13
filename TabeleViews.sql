@@ -1,4 +1,4 @@
-USE[NikamoozDB]
+﻿USE[NikamoozDB]
 GO
 
 --Make A View
@@ -35,5 +35,23 @@ AS
 SELECT CustomerID,COUNT(OrderID) AS NUM
 FROM dbo.Orders 
 GROUP BY CustomerID
+GO
+
+---
+ALTER VIEW dbo.CustomerOrder
+AS
+SELECT CustomerID,COUNT(OrderID) AS NUM
+FROM dbo.Orders 
+GROUP BY CustomerID
+GO
+
+-----------
+
+ALTER VIEW dbo.Custmerteh 
+AS 
+SELECT C.City,C.CompanyName
+FROM Customers AS C
+WHERE City = N'تهران'
+WITH CHECK OPTION;
 GO
 
