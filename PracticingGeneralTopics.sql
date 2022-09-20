@@ -99,9 +99,7 @@ GO
 WITH EmployesCTE
 AS
 (
-	SELECT (SELECT EmployeeID
-		FROM Employees AS E
-			WHERE O.EmployeeID = E.EmployeeID) AS EmployID ,
+	SELECT EmployeeID,
 			(SELECT mgrid
 			FROM Employees AS E1 WHERE E1.EmployeeID =O.EmployeeID) AS Mgid,
 			MAX(O.OrderDate) AS MaxDate,
@@ -109,13 +107,31 @@ AS
 	FROM Orders AS O
 	GROUP BY EmployeeID
 )
-SELECT EC.EmployID,EC.NumOrder,EC.MaxDate,
-	   E12.EmployID,E12.NumOrder,E12.MaxDate
+SELECT EC.EmployeeID,EC.NumOrder,EC.MaxDate,
+	   E12.EmployeeID,E12.NumOrder,E12.MaxDate
 FROM EmployesCTE AS EC
 LEFT JOIN  EmployesCTE E12
-	ON EC.Mgid = E12.EmployID
+	ON EC.Mgid = E12.EmployeeID
 GO
 --END QUERY
+
+
+WITH MannagerEM
+AS
+(
+   SELECT E1.EmployeeID, E1.mgrid, E1.FirstName, E1.LastName
+   FROM Employees AS E1
+   WHERE E1.EmployeeID = 9
+
+   UNION ALL
+
+   SELECT E.EmployeeID, E.mgrid, E.FirstName,E.LastName
+   FROM MannagerEM AS CTE
+   JOIN Employees AS E 
+   ON E.EmployeeID = CTE.mgrid
+)
+SELECT * FROM MannagerEM
+
 
 
 
